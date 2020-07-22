@@ -7,6 +7,10 @@ from django.utils import timezone
 from .models import Question
 from django.urls import reverse
 
+    def create_question(question_text, days):
+        time = timezone.now() + datetime.timedelta(days=days)
+        return Question.objects.create(question_text=question_text, pub_date=time)
+
 class QuestionModelTests(TestCase):
 
     def test_was_published_recently_with_future_question(self):
@@ -36,9 +40,7 @@ class QuestionModelTests(TestCase):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
     
-    def create_question(question_text, days):
-    time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
+    
 
 
 class QuestionIndexViewTests(TestCase):
